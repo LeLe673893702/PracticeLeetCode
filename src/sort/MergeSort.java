@@ -2,9 +2,12 @@ package sort;
 
 import java.util.Arrays;
 
+/**
+ * 归并排序
+ */
 public class MergeSort {
     public static void main(String[] args) {
-        int[] data = {5,4,3,2,1};
+        int[] data = {3,2,1};
         int[] sortArray = sortedSquares(data);
         Arrays.stream(sortArray).forEach(System.out::println);
     }
@@ -16,6 +19,7 @@ public class MergeSort {
 
         return A;
     }
+
     public static void sort(int p, int r, int[] data) {
         if (p >= r) return;
         int  q = (p+r)/ 2;
@@ -29,9 +33,10 @@ public class MergeSort {
     }
 
     public static void merge(int[] data, int p, int q, int r) {
-        int[] tmp = new int[(q-p+1)+(r-q)];
-        int i, j, k;
-        for ( i = p, j = q+1, k = 0; i <= q && j <= r; k++) {
+        int[] tmp = new int[r-p+1];
+        int i = p, j = q+1, k;
+        // 合并排序
+        for (k = 0; i <= q && j <= r; k++) {
             if (data[i] <= data[j]) {
                 tmp[k] = data[i];
                 i++;
@@ -40,12 +45,16 @@ public class MergeSort {
                 j++;
             }
         }
+
+        // 加入左边数组多余元素
         for (; i <= q; i++, k++) {
             tmp[k] = data[i];
         }
+        // 加入右边数组多余元素
         for (; j <= r; j++, k++) {
             tmp[k] = data[j];
         }
+
         for (int z = 0; z <tmp.length; z++) {
             data[p++] = tmp[z];
         }
