@@ -8,7 +8,7 @@ import java.util.Collections;
  */
 public class QuickSort {
     public static void main(String[] args) {
-       int[] data = {7,5,3,2,3,4};
+       int[] data = {5,4,3,2,1};
         quickSort(data, 0, data.length-1);
         Arrays.stream(data).forEach(System.out::println);
     }
@@ -28,29 +28,24 @@ public class QuickSort {
     private static int partition(int[] data, int p, int r) {
         // 基准值
         int flag = data[r];
-        int i = p, j = r - 1;
+        int i = p, j = r;
         while (i < j) {
-            // i从左边找，如果比基准值大交换元素
+            // i从左边找，如果比基准值大直接赋值
             while (data[i] <= flag && i < j) {
                 i++;
             }
-            swap(i, j, data);
+            if (i < j)
+                data[j] = data[i];
 
-            // j从右边找，如果比基准值小交换元素
+            // j从右边找，如果比基准值小直接赋值
             while (data[j] >= flag && i < j) {
                 j--;
             }
-            swap(i,j,data);
+            if (i < j)
+                data[i] = data[j];
         }
         // 基准值放入数组中间
-        swap(j, r, data);
-        Arrays.sort(data);
-        return j;
-    }
-
-    private static void swap(int i, int j, int[] data) {
-        int tmp = data[i];
-        data[i] = data[j];
-        data[j] = tmp;
+        data[i] = flag;
+        return i;
     }
 }
