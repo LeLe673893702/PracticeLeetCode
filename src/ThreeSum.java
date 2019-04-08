@@ -2,6 +2,9 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 
+/**
+ * 三数相加
+ */
 public class ThreeSum {
 
     public static void main(String[] args) {

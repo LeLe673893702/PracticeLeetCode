@@ -1,5 +1,14 @@
 import java.util.Stack;
 
+/**
+ * '(', ')', '{', '}', '[' and ']'由这些符号组成的字符串是否对称
+ * Input: "()[]{}"
+ * Output: true
+ * Input: "([)]"
+ * Output: false
+ * Input: "{[]}"
+ * Output: true
+ */
 public class ValidParentheses {
     public static void main(String[] args) {
         System.out.println(isValid("{{]}"));

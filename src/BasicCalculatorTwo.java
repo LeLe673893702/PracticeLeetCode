@@ -4,6 +4,11 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * 加减乘除计算器，不用考虑括号
+ * Input: " 3+5 / 2 "
+ * Output: 5
+ */
 public class BasicCalculatorTwo {
     public static void main(String[] args) {
         System.out.print(calculate("1+2*5/3+6/4*2"));

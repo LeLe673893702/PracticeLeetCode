@@ -1,6 +1,11 @@
+package sort;
+
 import java.util.Arrays;
 import java.util.function.IntConsumer;
 
+/**
+ * 插入语排序
+ */
 public class InsertionSortArray {
 
     public static void main(String[] args) {

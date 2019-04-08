@@ -1,5 +1,13 @@
 import java.util.Stack;
 
+/**
+ * 反转整数
+ * Input: -123
+ * Output: -321
+ *
+ * Input: 120
+ * Output: 21
+ */
 public class ReverseInteger {
     public static void main(String[] args) {
         System.out.println(reverse(123));

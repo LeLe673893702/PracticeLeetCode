@@ -2,6 +2,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * 加减计算器，需要考虑括号
+ * Input: "(1+(4+5+2)-3)+(6+8)"
+ * Output: 23
+ */
 public class BasicCalculator {
     public static void main(String[] args) {
         System.out.println(calculate("(1)"));

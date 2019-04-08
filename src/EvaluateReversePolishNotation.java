@@ -1,5 +1,11 @@
 import java.util.Stack;
 
+/**
+ * 逆波兰法计算，
+ * Input: ["4", "13", "5", "/", "+"]
+ * Output: 6
+ * Explanation: (4 + (13 / 5)) = 6
+ */
 public class EvaluateReversePolishNotation {
     public static void main(String[] args) {
         String[] tokens =  {"10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"};

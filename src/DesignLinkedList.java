@@ -1,3 +1,6 @@
+/**
+ * 设置一个LinkedList
+ */
 public class DesignLinkedList {
     private static class Node {
         int val;

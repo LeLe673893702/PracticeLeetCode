@@ -1,3 +1,7 @@
+/**
+ * 移除一个列表倒数第n个节点
+ * 1->2->3->4->5, and n = 2. 结果1->2->3->5.
+ */
 public class RemoveNthNodeFromEndofList {
 
     public static class ListNode {
@@ -29,19 +33,22 @@ public class RemoveNthNodeFromEndofList {
         }
 
         h = head;
-        int a = size - n;
-        if (a == 0) {
+        // 计算倒数第n个节点的索引值
+        int index = size - n;
+        // 最后一个节点
+        if (index == 0) {
             h = h.next;
             return h;
         }
 
         // 找到需要删除节点的前面那个节点
-        // 走的步数就是a-1
-        while (a > 1) {
+        // 走的步数就是index-1
+        while (index - 1 > 0) {
             h = h.next;
-            a--;
+            index--;
         }
 
+        // 删除节点
         ListNode tmp;
         tmp = h.next.next;
         h.next = tmp;

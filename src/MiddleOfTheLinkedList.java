@@ -1,3 +1,7 @@
+/**
+ * 876、找到中间节点，快慢指针一个走一步，一个走两步，两步走到头，一步在中间。
+ *
+ */
 public class MiddleOfTheLinkedList {
     public static class ListNode {
         int val;
