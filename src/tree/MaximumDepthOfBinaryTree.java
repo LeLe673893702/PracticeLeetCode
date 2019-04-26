@@ -8,7 +8,7 @@ public class MaximumDepthOfBinaryTree {
         treeNode.left = new TreeNode(2);
         System.out.println(maxDepth(treeNode));
     }
-    public  static  int maxDepth(TreeNode root) {
+    public static int maxDepth(TreeNode root) {
         if (root == null) {
             return 0;
         }
