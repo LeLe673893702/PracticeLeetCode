@@ -75,22 +75,23 @@ public class BinaryTreeTraversal {
 
     public Queue<TreeNode> leftToRightTraversal(Queue<TreeNode> rootNodeQueue, List<List<Integer>> allResults) {
         List<Integer> subResults = new ArrayList<>(rootNodeQueue.size());
-        Queue<TreeNode> tmpTreeNodeQueue = new ArrayDeque<>();
-        if (rootNodeQueue.isEmpty()) return tmpTreeNodeQueue;
-        while (!rootNodeQueue.isEmpty()) {
+        int count = rootNodeQueue.size();
+        if (rootNodeQueue.isEmpty()) return rootNodeQueue;
+        while (count > 0) {
             TreeNode treeNode = rootNodeQueue.poll();
             subResults.add(treeNode.val);
             if (treeNode.left != null) {
-                tmpTreeNodeQueue.offer(treeNode.left);
+                rootNodeQueue.offer(treeNode.left);
             }
             if (treeNode.right != null) {
-                tmpTreeNodeQueue.offer(treeNode.right);
+                rootNodeQueue.offer(treeNode.right);
             }
+            count --;
         }
         if (!subResults.isEmpty()) {
             allResults.add(subResults);
         }
-         return leftToRightTraversal(tmpTreeNodeQueue, allResults);
+         return leftToRightTraversal(rootNodeQueue, allResults);
     }
 
 
