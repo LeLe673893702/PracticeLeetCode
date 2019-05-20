@@ -11,7 +11,7 @@ public class DeleteNodeInBST {
 
         Integer[] ints =
 //                {2,0,33,null,1,25,40,null,null,11,31,34,45,10,18,29,32,null,36,43,46,4,null,12,24,26,30,null,null,35,39,42,44,null,48,3,9,null,14,22,null,null,27,null,null,null,null,38,null,41,null,null,null,47,49,null,null,5,null,13,15,21,23,null,28,37,null,null,null,null,null,null,null,null,8,null,null,null,17,19,null,null,null,null,null,null,null,7,null,16,null,null,20,6};
-                {2,1,3};
+                {5,3,6,2,4,null,7};
         Integer[] outs =
                 {2,0,34,null,1,25,40,null,null,11,31,36,45,10,18,29,32,35,39,43,46,4,null,12,24,26,30,null,null,null,null,38,null,42,44,null,48,3,9,null,14,22,null,null,27,null,null,37,null,41,null,null,null,47,49,null,null,5,null,13,15,21,23,null,28,null,null,null,null,null,null,null,null,null,8,null,null,null,17,19,null,null,null,null,null,7,null,16,null,null,20,6};
 
@@ -52,90 +52,35 @@ public class DeleteNodeInBST {
             subMinCurNode = findCurNode.right;
             findMinNode();
 
-            if (findPreNode == null) {
-                return deleteNodeByTwoChildNode(true,root);
-            }
-
-            if (findPreNode.right != null) {
-                if (findPreNode.right.val == findCurNode.val) {
-                    return deleteNodeByTwoChildNode(true, root);
-                }
-            }
-
-            if (findPreNode.left != null) {
-                if (findPreNode.left.val == findCurNode.val) {
-                    return deleteNodeByTwoChildNode(false, root);
-                }
-            }
-
+            findCurNode.val = subMinCurNode.val;
+            findCurNode = subMinCurNode;
+            findPreNode = subMinPreNode;
         }
 
-        return deleteSubNode(key,  findCurNode,findPreNode, root);
+        TreeNode curChildNode = null;
+        // 先处理删除节点有一个节点和无节点的情况
+        if (findCurNode.left != null) {
+            // 删除节点的左节点不为空
+            curChildNode = findCurNode.left;
+        } else if (findCurNode.right != null){
+            // 删除节点的左节点不为空
+            curChildNode = findCurNode.right;
+        }
+
+        // 再判断处理删除节点是父节点的左节点还是右节点
+        if (findPreNode == null) {
+            // 删除根节点，直接返回null
+            root = curChildNode;
+        } else if (findPreNode.left == findCurNode) {
+            // 删除左节点
+            findPreNode.left = curChildNode;
+        } else if (findPreNode.right == findCurNode) {
+            // 删除右节点
+            findPreNode.right = curChildNode;
+        }
+
+        return root;
     }
-
-     private TreeNode deleteSubNode(int key, TreeNode curNode, TreeNode preNode, TreeNode root) {
-         // 无子节点直接删除
-         if (curNode.left == null && curNode.right == null) {
-             if (preNode == null) {
-                 return null;
-             }
-             if (preNode.right != null) {
-                 if (preNode.right.val == curNode.val) {
-                     preNode.right = null;
-                     return root;
-                 }
-             }
-
-             if (preNode.left != null) {
-                 if (preNode.left.val == curNode.val) {
-                     preNode.left = null;
-                     return root;
-                 }
-             }
-
-         }
-
-         // 如果有一个右节点
-         if (curNode.left == null && curNode.right != null) {
-             if (preNode == null) {
-                 return root.right;
-             }
-             if (preNode.right != null) {
-                 if (preNode.right.val == curNode.val) {
-                     preNode.right = curNode.right;
-                     return root;
-                 }
-             }
-
-             if (preNode.left != null) {
-                 if (preNode.left.val == curNode.val) {
-                     preNode.left = curNode.right;
-                     return root;
-                 }
-             }
-         }
-
-         // 如果只有一个左节点
-         if (curNode.left != null && curNode.right == null) {
-             if (preNode == null) {
-                 return root.left;
-             }
-             if (preNode.right != null) {
-                 if (preNode.right.val == curNode.val) {
-                     preNode.right = curNode.left;
-                     return root;
-                 }
-             }
-
-             if (preNode.left != null) {
-                 if (preNode.left.val == curNode.val) {
-                     preNode.left = curNode.left;
-                     return root;
-                 }
-             }
-         }
-         return root;
-     }
 
     /**
      * 先找指定节点
@@ -161,33 +106,6 @@ public class DeleteNodeInBST {
         while (subMinCurNode.left != null) {
             subMinPreNode = subMinCurNode;
             subMinCurNode = subMinPreNode.left;
-        }
-    }
-
-    /**
-     *  ，
-     */
-    private TreeNode deleteNodeByTwoChildNode(boolean right, TreeNode root) {
-        if (findPreNode != null) {
-            // 先把最小节点替换删除节点
-            if (right) {
-                findPreNode.right  = subMinCurNode;
-            } else  {
-                findPreNode.left = subMinCurNode;
-            }
-        }
-
-        // 最小节点右子树接到上个节点，移除最小节点
-        deleteSubNode(subMinCurNode.val, subMinCurNode, subMinPreNode, root);
-
-        // 删除找到的节点
-        subMinCurNode.left = findCurNode.left;
-        subMinCurNode.right = findCurNode.right;
-
-        if (findPreNode == null) {
-            return subMinCurNode;
-        } else  {
-            return root;
         }
     }
 }
