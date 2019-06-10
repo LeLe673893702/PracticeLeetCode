@@ -99,7 +99,7 @@ public class LRUCacheByHashMap {
             return;
         }
 
-        // 如果包含这个键, 创建新节点并设置为新节点，并且移除旧节点
+        // 如果包含这个键, 创建新节点并设置为头节点，并且移除旧节点
         if (cache.containsKey(key)) {
             // 旧的节点
             Node<Integer, Integer> oldNode = cache.get(key);
