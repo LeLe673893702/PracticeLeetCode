@@ -9,22 +9,13 @@ import java.util.HashMap;
  */
 public class LRUCacheByHashMap {
     public static void main(String[] args) {
-        LRUCacheByHashMap cache = new LRUCacheByHashMap(3);
-        cache.put(1, 1);
-        cache.put(2, 2);
-        cache.put(3, 3);
-        cache.put(4, 4);
-        System.out.println(cache.get(4));
-        System.out.println(cache.get(3));
+        LRUCacheByHashMap cache = new LRUCacheByHashMap(1);
+        cache.put(2, 1);
         System.out.println(cache.get(2));
-        System.out.println(cache.get(1));
         //234
-        cache.put(5, 5);
-        System.out.println(cache.get(1));
+        cache.put(3, 2);
         System.out.println(cache.get(2));
         System.out.println(cache.get(3));
-        System.out.println(cache.get(4));
-        System.out.println(cache.get(5));
     }
 
     private int capacity ;
@@ -53,17 +44,11 @@ public class LRUCacheByHashMap {
     }
 
     public int get(int key) {
-        if (cache.containsKey(key)) {
-            Node<Integer, Integer> oldNode = cache.get(key);
+        Node<Integer, Integer> findNode = cache.get(key);
 
-            if (oldNode != first) {
-                removeOldNode(oldNode);
-
-                // 变成头节点
-                oldNode.next = first;
-                moveToHead(oldNode);
-            }
-            return oldNode.value;
+        if (findNode != null) {
+            moveToHead(findNode);
+            return findNode.value;
         }
 
         return -1;
@@ -72,64 +57,74 @@ public class LRUCacheByHashMap {
 
     public void put(int key, int value) {
         if (capacity == 0) return;
-        // 如果cache满了，移除最后一个，但是如果含有相同的key不用移除，因为key相同旧的会被替换，数量不会变化
-        if (capacity == cache.size() && last != null && !cache.containsKey(key)) {
-            if (last.pre != null) {
-                last.pre.next = null;
-            }
-            cache.remove(last.key, last);
+        Node<Integer, Integer> findNode = cache.get(key);
+
+        // 如果键存在
+        if (findNode != null) {
+            findNode.value = value;
+            moveToHead(findNode);
+            return;
+        }
+
+        Node<Integer, Integer> newNode = new Node<>(key, value, null, first);
+
+        // 如果cache满了，移除最后一个
+        if (capacity == cache.size()) {
+            removeLast();
+            // 插入到头结点
+            addToHead(newNode);
+            cache.put(key, newNode);
+            return;
+        }
+
+        // 插入到头结点
+        addToHead(newNode);
+        cache.put(key, newNode);
+    }
+
+    private void addToHead(Node<Integer, Integer> node) {
+        if (first == null) {
+            last = first = node;
+            return;
+        }
+        first.pre = node;
+        node.next = first;
+        first = node;
+        node.pre = null;
+    }
+
+    private void removeNode(Node<Integer, Integer> node) {
+
+        // 节点前一个节点指向旧节点后一个节点
+        if (node.pre != null) {
+            node.pre.next = node.next;
+        }
+
+        // 节点后一个节点指向旧节点前一个节点
+        if (node.next != null) {
+            node.next.pre = node.pre;
+        }
+
+        if (last == node) {
             last = last.pre;
         }
 
-        // 如果cache为空，直接插入作为头结点
-        if (first == null) {
-            first = new Node<>(key, value, null, null);
-            cache.put(key, first);
-            last = first;
-            return;
-        }
-
-        // 如果没有这个键
-        if (!cache.containsKey(key)) {
-            Node<Integer, Integer> newNode = new Node<>(key, value, null, first);
-            // 插入到头结点
-            first.pre = newNode;
-            first = newNode;
-            cache.put(key, newNode);
-            return;
-        }
-
-        // 如果包含这个键, 创建新节点并设置为头节点，并且移除旧节点
-        if (cache.containsKey(key)) {
-            // 旧的节点
-            Node<Integer, Integer> oldNode = cache.get(key);
-
-            // 新节点设置为新的头节点
-            Node<Integer, Integer> newNode = new Node<>(key, value, null, first);
-            moveToHead(newNode);
-
-            // 移除旧节点
-            removeOldNode(oldNode);
-            cache.put(key, newNode);
-        }
     }
 
-    private void moveToHead(Node<Integer, Integer> newNode) {
-        first.pre = newNode;
-        first = newNode;
+    private void moveToHead(Node<Integer, Integer> node) {
+        if (node == first) {
+            return;
+        }
+        removeNode(node);
+        addToHead(node);
     }
 
-    private void removeOldNode(Node<Integer, Integer> oldNode) {
-        // 旧节点前一个节点指向旧节点后一个节点
-        if (oldNode.pre != null) {
-            oldNode.pre.next = oldNode.next;
-        }
-
-        // 旧节点后一个节点指向旧节点前一个节点
-        if (oldNode.next != null) {
-            oldNode.next.pre = oldNode.pre;
-        } else {
-            last = oldNode.pre;
+    private void removeLast() {
+        cache.remove(last.key, last);
+        removeNode(last);
+        // 如果只有一个节点，移除完变为空链表
+        if (last == null) {
+            first = null;
         }
     }
 }
