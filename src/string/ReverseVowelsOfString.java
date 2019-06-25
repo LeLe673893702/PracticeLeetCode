@@ -1,3 +1,5 @@
+package string;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +27,7 @@ public class ReverseVowelsOfString {
 
     }
     public static String reverseVowels(String s) {
-        Set<Character> vowel = new HashSet<Character>(Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'));
+            Set<Character> vowel = new HashSet<>(Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'));
 
         int i = 0, j = s.length()-1;
         char[] chars = s.toCharArray();
@@ -36,7 +38,6 @@ public class ReverseVowelsOfString {
                 chars[j]  = tmp;
                 i++;
                 j--;
-                StringBuilder stringBuilder = new StringBuilder(s);
                 continue;
             }
 
