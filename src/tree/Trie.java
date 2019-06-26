@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现字典树
+ */
 public class Trie {
     public static void main(String[] args) {
         Trie trie = new Trie();
@@ -57,33 +60,34 @@ public class Trie {
      * Returns if the word is in the trie.
      */
     public boolean search(String word) {
-        Node head = root;
-        for (char c : word.toCharArray()) {
-            if (head.childNodes.containsKey(c)) {
-                head = head.childNodes.get(c);
-            } else {
-                return false;
-            }
+        Node node = findNode(word);
+        if (node == null) {
+            return false;
         }
-
-        return head.end;
-
+        return node.end;
     }
 
     /**
      * Returns if there is any word in the trie that starts with the given prefix.
      */
     public boolean startsWith(String prefix) {
-        Node head = root;
-        for (char c : prefix.toCharArray()) {
-            if (head.childNodes.containsKey(c)) {
-                head = head.childNodes.get(c);
-            } else {
-                return false;
-            }
+        if (findNode(prefix) == null) {
+            return false;
         }
 
         return true;
+    }
+
+    public Node findNode(String word) {
+        Node head = root;
+        for (char c : word.toCharArray()) {
+            if (head.childNodes.containsKey(c)) {
+                head = head.childNodes.get(c);
+            } else {
+                return head;
+            }
+        }
+        return null;
     }
 
     class Node {
