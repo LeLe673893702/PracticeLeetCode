@@ -1,5 +1,7 @@
 package week;
 
+import java.util.Arrays;
+
 /**
  *排排坐，分糖果。
  *
@@ -17,21 +19,56 @@ package week;
 public class DistributionOfCandy {
     public static void main(String[] args) {
         DistributionOfCandy distributionOfCandy = new DistributionOfCandy();
-        System.out.println(distributionOfCandy.distributeCandies( 10, 3));
+        int[] res = distributionOfCandy.distributeCandies2( 10, 3);
+        Arrays.stream(res).forEach(System.out::println);
     }
     // 方程 num_people^2/2 * x^2 + num_people/2 * x - candies = 0
     public int[] distributeCandies(int candies, int num_people) {
-        int[] result = {};
+        int[] results = new int[num_people];
         double b = num_people / 2.0;
         double a = Math.pow(num_people, 2)/2.0;
         double x1 = (-b + Math.sqrt(b*b - 4 * a * -candies)) / (2.0 * a);
         double x2 = (-b - Math.sqrt(b*b - 4 * a * -candies)) / (2.0 * a);
-        double remainder = x1 - (int) x1;
-        for (int i = 0; i < (int)x1; i++) {
+        int sum = 0;
 
+        for (int i = 0; i < num_people; i++) {
+            int shareCandies = (2*i +2 + num_people*(int)x1 - num_people)*(int)x1 / 2;
+            results[i] = shareCandies;
+            sum += shareCandies;
         }
-        System.out.println(x1);
-        System.out.println(remainder*num_people);
-        return result;
+        int remain = candies - sum;
+        for (int i = 0; i < num_people; i++) {
+            int shareCandies = num_people * (int)x1 + i + 1;
+            if (remain < shareCandies) {
+                results[i] += remain;
+            } else {
+                results[i] += shareCandies;
+            }
+            remain -= shareCandies;
+            if (remain < 0) {
+                break;
+            }
+        }
+
+        return results;
      }
+
+    public int[] distributeCandies2(int candies, int num_people) {
+        int[] results = new int[num_people];
+        int count = 1;
+        int sum = 0;
+        for (int i = 0; i < num_people; i++) {
+            if (sum+count >= candies) {
+                results[i] += candies - sum;
+                break;
+            }
+            results[i] += count;
+            sum += count;
+            count ++;
+            if (i == num_people-1) {
+                i = -1;
+            }
+        }
+        return results;
+    }
 }
