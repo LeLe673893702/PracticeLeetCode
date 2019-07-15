@@ -26,22 +26,23 @@ public class CorporateFlightBookings {
         CorporateFlightBookings corporateFlightBookings = new CorporateFlightBookings();
 
     }
+
+    /**
+     * 坐公交理论
+     * 当[1,2,10]，表示在第一站上车10人，第三站下车10人，第二站的人数就是a[2]+a[1]=10人
+     */
     public int[] corpFlightBookings(int[][] bookings, int n) {
-        Node[] subs = new Node[bookings.length];
+        int[] seats = new int[n+1];
+        int[] results = new int[n];
         for (int i = 0; i < bookings.length; i++) {
-            subs[i] = bookings[i][1] - bookings[i][0];
+            seats[bookings[i][0]-1] += bookings[i][2];
+            seats[bookings[i][1]] -= bookings[i][2];
         }
 
-        Arrays.sort(subs, (o1, o2) -> {
-            if (o1 > o2) {
-                return 1;
-            } else if (o1 < o2) {
-                return -1;
-            } else {
-                return 0;
-            }
-        });
-
-        for ()
+        for (int j = 0; j < n; j++) {
+            seats[j+1] += seats[j];
+            results[j] = seats[j];
+        }
+        return results;
     }
 }
