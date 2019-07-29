@@ -1,7 +1,11 @@
 package greedy;
 
+import java.util.Arrays;
 import java.util.Stack;
 
+/**
+ *
+ */
 public class DistributeCandy {
     public static void main(String[] args) {
         int[] ratings = {29,51,87,87,72,12};
