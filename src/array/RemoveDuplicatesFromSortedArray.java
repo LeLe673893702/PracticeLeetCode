@@ -21,16 +21,19 @@ public class RemoveDuplicatesFromSortedArray {
                 nums[i] = Integer.MAX_VALUE;
                 sum++;
             }
+            // 找到第一个重复项
             if (first) {
                 index = i;
                 first = false;
             }
         }
 
+        // 如果没有重复项直接输出
         if (index == -1) {
             return nums.length - sum;
         }
 
+        // 交换位置，把重复项移动到最后
         for (int i = index; i < nums.length -1; i++) {
             if (nums[i+1] != Integer.MAX_VALUE) {
                 int swap = nums[i+1];
